@@ -1,0 +1,43 @@
+@import "../../../app/styles/config";
+%buttons {
+  padding: 1rem 2.5rem;
+  border-radius: $borderRadiusSmall;
+  cursor: pointer;
+  outline: none;
+  transition: 0.2s;
+  font-weight: 700;
+  font-size: 2rem;
+}
+%hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 2px 2px 10px 0 $blue;
+}
+%active {
+  transform: translate(0);
+  box-shadow: none;
+  transition: 0.1s;
+}
+
+.login {
+  @extend %buttons;
+  background-color: $backgroundBlue;
+  border: 2px $blue solid;
+  &:hover {
+    @extend %hover;
+  }
+  &:active {
+    @extend %active;
+  }
+}
+
+.signUp {
+  @extend %buttons;
+  background-color: $blue;
+  border: 2px $blue solid;
+  &:hover {
+    @extend %hover;
+  }
+  &:active {
+    @extend %active;
+  }
+}

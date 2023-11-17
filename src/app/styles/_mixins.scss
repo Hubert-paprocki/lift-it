@@ -1,0 +1,10 @@
+@import "./config";
+@mixin text($textColor, $shadowColor, $textShadow) {
+  color: $textColor;
+  font-weight: 500;
+  text-shadow: $textShadow $shadowColor;
+}
+@mixin border($size, $borderColor, $borderRadius) {
+  border: $size solid $borderColor;
+  border-radius: $borderRadius;
+}
