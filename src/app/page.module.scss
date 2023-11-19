@@ -1,4 +1,5 @@
 @import "./styles/config";
+@import "./styles/animations";
 
 .main {
   display: flex;
@@ -6,9 +7,11 @@
   align-items: center;
   background-color: $backgroundBlue;
   min-height: 100vh;
+
   .wrapper {
     width: 1500px;
   }
+
   .logo {
     display: flex;
     width: 100%;
@@ -20,6 +23,7 @@
       padding: 2.5rem 0;
       position: relative;
     }
+
     &Text {
       position: relative;
       background-color: none;
@@ -27,12 +31,13 @@
       font-size: 8.5rem;
       letter-spacing: 2px;
     }
+
     &Bg {
       position: absolute;
       inset: 0;
       background: $backgroundBlue;
       background: radial-gradient(circle, $blue 15%, $backgroundBlue 45%);
-      transform: translateX(-1.5rem) skewX(20deg);
+      animation: breathe 4s infinite;
     }
   }
 }
