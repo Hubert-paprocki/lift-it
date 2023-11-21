@@ -32,11 +32,11 @@
     &Span {
       position: relative;
       display: inline;
-      padding: 0.2rem 1rem;
+      padding: 0.3rem 1.2rem;
       font-size: 1.8rem;
       line-height: 3rem;
       box-decoration-break: clone;
-      background-color: rgba($blue, 0.95);
+      background-color: rgba($backgroundBlueLight, 1);
       border-radius: $borderRadiusSmall;
     }
   }

@@ -1,0 +1,112 @@
+@import "../../app/styles/config";
+@import "../../app/styles/animations";
+
+.loginForm {
+  padding: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 5rem;
+  overflow: hidden;
+  font-size: 2rem;
+  border-radius: $borderRadiusSmall;
+  border-color: $blueishWhite;
+  color: $blueishWhiteLight;
+  text-transform: capitalize;
+
+  &Wrapper {
+    width: 80%;
+  }
+  .legend {
+    padding: 0 1rem;
+  }
+
+  .submitWrapper {
+    .errorMsg {
+      font-weight: 500;
+      color: rgb(255, 118, 118);
+    }
+
+    .sentMsg {
+      font-weight: 500;
+      color: rgb(187, 0, 187);
+      transform: translateY(400%);
+      transition: 0.2s;
+    }
+
+    .animationMsg {
+      transform: translateY(0);
+    }
+  }
+
+  .fieldGroup {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    &:focus-within {
+      .label {
+        transform: translate(-0.5rem, -61%);
+        background-color: $backgroundBlueLight;
+        height: 50%;
+        font-size: 1.8rem;
+      }
+    }
+    .label {
+      position: absolute;
+      left: 1.25rem;
+      margin: 2px;
+      top: 0;
+      bottom: 0;
+      display: flex;
+      align-items: center;
+      pointer-events: none;
+      transition: 0.2s;
+      padding: 0 0.5rem;
+      font-size: 1.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+    .field {
+      padding: 0.4rem 1.25rem;
+      background: none;
+      outline: none;
+      flex: 3;
+      line-height: 4.5rem;
+      border: 2px solid $blueishWhite;
+      border-radius: $borderRadiusSmall;
+
+      font-size: 1.8rem;
+      color: $blueishWhiteLight;
+      letter-spacing: 1.5px;
+
+      &::placeholder {
+        opacity: 0;
+      }
+      &:-webkit-autofill {
+        -webkit-box-shadow: 0 0 0px 1000px $backgroundBlueLight inset;
+      }
+    }
+    .field:not(:placeholder-shown) + .label {
+      transform: translate(-0.5rem, -61%);
+      background-color: $backgroundBlueLight;
+      height: 50%;
+      font-size: 1.8rem;
+    }
+
+    .error {
+      color: red;
+      font-weight: 500;
+      position: absolute;
+      right: 0;
+      padding-right: 1.25rem;
+      padding-left: 10%;
+      text-align: left;
+      border-radius: 5px;
+      margin: 2px;
+      top: 0;
+      bottom: 0;
+      display: flex;
+      background: linear-gradient(to right, transparent, $backgroundBlueLight 20%);
+      align-items: center;
+    }
+  }
+}
