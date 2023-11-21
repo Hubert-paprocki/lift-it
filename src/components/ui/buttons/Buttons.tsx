@@ -1,21 +1,28 @@
 import React from "react";
 import styles from "./Buttons.module.scss";
+import Link from "next/link";
 
 interface ButtonProps {
   readonly children?: React.ReactNode;
   readonly onClick?: () => void;
   readonly type?: "button" | "submit" | "reset" | undefined;
-  readonly login?: boolean;
-  readonly signUp?: boolean;
+  readonly secondary?: boolean;
+  readonly primary?: boolean;
+  readonly link?: boolean;
+  readonly href?: string;
 }
 
 function Button(props: ButtonProps) {
-  const { children, onClick, type, login, signUp } = props;
+  const { children, onClick, type, secondary, primary, link, href } = props;
   let buttonClass;
-  if (login) buttonClass = styles.login;
-  else if (signUp) buttonClass = styles.signUp;
+  if (secondary) buttonClass = styles.secondary;
+  else if (primary) buttonClass = styles.primary;
 
-  return (
+  return link ? (
+    <Link href={href || ""} className={buttonClass ? buttonClass : ""}>
+      {children}
+    </Link>
+  ) : (
     <button
       type={type}
       onClick={onClick}

@@ -1,0 +1,25 @@
+@import "../../app/styles/config";
+@import "../../app/styles/animations";
+
+.modalBox {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  background-color: rgba($backgroundBlue, $alpha: 0.5);
+  backdrop-filter: blur(10px);
+  animation: slide 0.5s cubic-bezier(0, 1, 1, 1);
+
+  &SideBox {
+    background: #000;
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    right: -0;
+    width: 40%;
+    max-width: 750px;
+    background-color: $backgroundBlueLight;
+    padding: 2rem;
+    display: flex;
+    align-items: flex-end;
+  }
+}

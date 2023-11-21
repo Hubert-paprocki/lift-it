@@ -11,3 +11,13 @@
     transform: scale(1) translateX(-1.5rem) skewX(20deg);
   }
 }
+
+@keyframes slide {
+  from {
+    transform: translateX(100%);
+  }
+
+  to {
+    transform: translateX(0);
+  }
+}

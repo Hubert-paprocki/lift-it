@@ -18,7 +18,7 @@
   transition: 0.1s;
 }
 
-.login {
+.secondary {
   @extend %buttons;
   background-color: $backgroundBlue;
   border: 2px $blue solid;
@@ -30,7 +30,7 @@
   }
 }
 
-.signUp {
+.primary {
   @extend %buttons;
   background-color: $blue;
   border: 2px $blue solid;
