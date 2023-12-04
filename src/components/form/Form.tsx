@@ -14,14 +14,14 @@ interface InputProps {
   initialValue: string;
 }
 
-interface LoginFormProps {
+interface FormComponentProps {
   inputs: InputProps[];
   labelMsg: string;
   btnText: string;
   onSubmit: (values: FormValues) => void;
 }
 
-function LoginForm(props: LoginFormProps) {
+function FormComponent(props: FormComponentProps) {
   const [isSend, setIsSend] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
 
@@ -67,8 +67,8 @@ function LoginForm(props: LoginFormProps) {
       validate={validate}
       onSubmit={props.onSubmit}
     >
-      <Form className={styles.loginFormWrapper}>
-        <fieldset className={styles.loginForm}>
+      <Form className={styles.formComponentWrapper}>
+        <fieldset className={styles.formComponent}>
           <legend className={styles.legend}>{props.labelMsg}</legend>
 
           {props.inputs.map((input) => (
@@ -115,4 +115,4 @@ function LoginForm(props: LoginFormProps) {
   );
 }
 
-export default LoginForm;
+export default FormComponent;

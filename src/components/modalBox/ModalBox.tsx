@@ -2,7 +2,10 @@ import React from "react";
 import styles from "./ModalBox.module.scss";
 import Button from "../ui/buttons/Buttons";
 import LoginForm from "../form/Form";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
 import { auth } from "@/app/firebase";
 import { FormValues } from "../form/Form";
 interface ModalBoxProps {
@@ -11,7 +14,7 @@ interface ModalBoxProps {
 }
 
 function ModalBox(props: ModalBoxProps) {
-  const handleSubmit = async (values: FormValues) => {
+  const handleSignUp = async (values: FormValues) => {
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -19,11 +22,42 @@ function ModalBox(props: ModalBoxProps) {
         values.password
       );
       const user = userCredential.user;
-      console.log(user);
+
+      try {
+        const userCredential = await signInWithEmailAndPassword(
+          auth,
+          values.userEmail,
+          values.password
+        );
+
+        const user = userCredential.user;
+        console.log(user.uid);
+      } catch (error: any) {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.error(errorMessage);
+      }
     } catch (error: any) {
       const errorCode = error.code;
       const errorMessage = error.message;
       console.error(errorMessage, values);
+    }
+  };
+
+  const handleLogin = async (values: FormValues) => {
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        values.userEmail,
+        values.password
+      );
+
+      const user = userCredential.user;
+      console.log(user.uid);
+    } catch (error: any) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.error(errorMessage);
     }
   };
 
@@ -49,7 +83,7 @@ function ModalBox(props: ModalBoxProps) {
               ]}
               labelMsg={"welcome back"}
               btnText={"Log In"}
-              onSubmit={handleSubmit}
+              onSubmit={handleLogin}
             />
           )}
           {props.content === "signUp" && (
@@ -76,7 +110,7 @@ function ModalBox(props: ModalBoxProps) {
               ]}
               labelMsg={"welcome back"}
               btnText={"Sign Up"}
-              onSubmit={handleSubmit}
+              onSubmit={handleSignUp}
             />
           )}
         </div>
