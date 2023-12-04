@@ -3,7 +3,7 @@ import { Formik, Field, Form, ErrorMessage } from "formik";
 import Button from "../ui/buttons/Buttons";
 import styles from "./Form.module.scss";
 
-interface FormValues {
+export interface FormValues {
   [key: string]: string;
 }
 
@@ -18,6 +18,7 @@ interface LoginFormProps {
   inputs: InputProps[];
   labelMsg: string;
   btnText: string;
+  onSubmit: (values: FormValues) => void;
 }
 
 function LoginForm(props: LoginFormProps) {
@@ -42,10 +43,6 @@ function LoginForm(props: LoginFormProps) {
     }
   };
 
-  const handleSubmit = async (values: FormValues) => {
-    showMsg("sent");
-  };
-
   const validate = (values: FormValues) => {
     const errors: Partial<FormValues> = {};
 
@@ -68,7 +65,7 @@ function LoginForm(props: LoginFormProps) {
         {}
       )}
       validate={validate}
-      onSubmit={handleSubmit}
+      onSubmit={props.onSubmit}
     >
       <Form className={styles.loginFormWrapper}>
         <fieldset className={styles.loginForm}>

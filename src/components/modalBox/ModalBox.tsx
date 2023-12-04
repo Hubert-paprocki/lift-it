@@ -2,13 +2,31 @@ import React from "react";
 import styles from "./ModalBox.module.scss";
 import Button from "../ui/buttons/Buttons";
 import LoginForm from "../form/Form";
-
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "@/app/firebase";
+import { FormValues } from "../form/Form";
 interface ModalBoxProps {
   onClick: () => void;
   content: string;
 }
 
 function ModalBox(props: ModalBoxProps) {
+  const handleSubmit = async (values: FormValues) => {
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        values.userEmail,
+        values.password
+      );
+      const user = userCredential.user;
+      console.log(user);
+    } catch (error: any) {
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      console.error(errorMessage, values);
+    }
+  };
+
   return (
     <div className={styles.modalBox}>
       <div className={styles.modalBoxSideBox}>
@@ -31,13 +49,14 @@ function ModalBox(props: ModalBoxProps) {
               ]}
               labelMsg={"welcome back"}
               btnText={"Log In"}
+              onSubmit={handleSubmit}
             />
           )}
           {props.content === "signUp" && (
             <LoginForm
               inputs={[
                 {
-                  name: "user Email",
+                  name: "userEmail",
                   type: "email",
                   id: "userEmail",
                   initialValue: "",
@@ -49,7 +68,7 @@ function ModalBox(props: ModalBoxProps) {
                   initialValue: "",
                 },
                 {
-                  name: "repeat Password",
+                  name: "repeatPassword",
                   type: "text",
                   id: "repeatPassword",
                   initialValue: "",
@@ -57,6 +76,7 @@ function ModalBox(props: ModalBoxProps) {
               ]}
               labelMsg={"welcome back"}
               btnText={"Sign Up"}
+              onSubmit={handleSubmit}
             />
           )}
         </div>
