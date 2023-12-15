@@ -4,8 +4,10 @@ import { createPortal } from "react-dom";
 import ModalBox from "@/components/modalBox/ModalBox";
 import Button from "@/components/ui/buttons/Buttons";
 import styles from "./LoginButtonBox.module.scss";
+import useRedirectOnUserLogged from "@/customHooks/useRedirectOnUserLogged";
 
 function LoginButtonBox() {
+  const { user, loading } = useRedirectOnUserLogged();
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState("");
 

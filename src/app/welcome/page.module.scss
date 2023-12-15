@@ -1,0 +1,70 @@
+@import ".././styles/config";
+@import ".././styles/animations";
+
+.main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: $backgroundBlue;
+  min-height: 100vh;
+
+  .wrapper {
+    max-width: 1500px;
+  }
+
+  .logo {
+    display: flex;
+    padding: 5vh 0;
+    justify-content: center;
+    align-items: center;
+
+    &Wrapper {
+      padding: 2.5rem 0;
+      position: relative;
+    }
+
+    &Text {
+      position: relative;
+      background-color: none;
+      z-index: 1;
+      font-size: 8.5rem;
+      letter-spacing: 2px;
+    }
+
+    &Bg {
+      position: absolute;
+      inset: 0;
+      background: $backgroundBlue;
+      background: radial-gradient(circle, $blue 15%, $backgroundBlue 45%);
+      animation: breathe 4s infinite;
+      filter: blur(10px);
+    }
+  }
+}
+
+.login {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  &Text {
+    display: flex;
+    flex-direction: column;
+    font-size: 3rem;
+    letter-spacing: 1px;
+    line-height: 4.5rem;
+  }
+  &ButtonBox {
+    display: flex;
+    justify-content: center;
+    column-gap: 10vw;
+    padding: 2.5rem 0;
+  }
+}
+.appFeaturesSection {
+  &Text {
+    text-align: center;
+    font-size: 2.25rem;
+    letter-spacing: 1px;
+  }
+}
