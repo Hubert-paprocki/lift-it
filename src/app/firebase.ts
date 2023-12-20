@@ -12,7 +12,7 @@ const firebaseConfig = {
 };
 
 const app = initializeApp(firebaseConfig);
-const firestore = getFirestore(app);
+const db = getFirestore(app);
 const auth = getAuth(app);
 
 
@@ -24,4 +24,4 @@ setPersistence(auth, browserSessionPersistence)
     console.error("Error setting persistence:", error);
   });
 
-export { auth, firestore };
+export { auth, db };
