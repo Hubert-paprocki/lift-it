@@ -14,13 +14,10 @@ import {
 import { LineChart } from "@mui/x-charts/LineChart";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { useUserContext } from "@/context/UserContext";
-import { Formik, Field, Form, ErrorMessage, FormikHelpers } from "formik";
-import Button from "../ui/buttons/Buttons";
-
-interface FormValues {
-  weight: string;
-}
-
+import { FormikHelpers } from "formik";
+import styles from "./BodyWeightTracker.module.scss";
+import FormComponent from "../form/Form";
+import { FormValues } from "../form/Form";
 interface WeightEntries {
   date: string;
   weight: number;
@@ -30,7 +27,6 @@ function BodyWeightTracker() {
   const newTheme = createTheme({ palette: { mode: "dark" } });
   const { user } = useUserContext();
   const [weightEntries, setWeightEntries] = useState<WeightEntries[]>([]);
-  console.log(weightEntries);
 
   const fetchData = async () => {
     if (!user) return;
@@ -61,49 +57,6 @@ function BodyWeightTracker() {
     fetchData();
   }, [user]);
 
-  const onSubmit = async (
-    values: FormValues,
-    { resetForm }: FormikHelpers<FormValues>
-  ) => {
-    if (!user) return;
-
-    try {
-      const weightValue = parseFloat(values.weight);
-      const userDocRef = doc(db, "users", user.uid);
-      const weightRecordcollectionRef = collection(userDocRef, "weightRecord");
-
-      const currentDate = new Date().toLocaleDateString("fr-FR", {
-        day: "2-digit",
-        month: "2-digit",
-        year: "numeric",
-      });
-
-      const existingRecordQuery = query(
-        weightRecordcollectionRef,
-        where("date", "==", currentDate)
-      );
-      const existingRecordSnapshot = await getDocs(existingRecordQuery);
-
-      if (existingRecordSnapshot.size > 0) {
-        const existingRecordDoc = existingRecordSnapshot.docs[0];
-        await updateDoc(existingRecordDoc.ref, {
-          weight: weightValue,
-        });
-      } else {
-        await addDoc(weightRecordcollectionRef, {
-          weight: weightValue,
-          date: currentDate,
-        });
-      }
-
-      fetchData();
-
-      resetForm();
-    } catch (error) {
-      console.error("Error adding/updating weight entry to Firebase:", error);
-    }
-  };
-
   const config = {
     series: [
       {
@@ -117,8 +70,7 @@ function BodyWeightTracker() {
   };
 
   return (
-    <div>
-      <div className="">Body Weight Tracker</div>
+    <div className={styles.weightTrackerBox}>
       <ThemeProvider theme={newTheme}>
         <LineChart
           xAxis={[
@@ -131,33 +83,71 @@ function BodyWeightTracker() {
           {...config}
         />
       </ThemeProvider>
-      <p>
-        Current Weight:{" "}
-        {weightEntries.length > 0
-          ? weightEntries[weightEntries.length - 1].weight
-          : "loading"}{" "}
-        kg
-      </p>
 
-      <Formik
-        initialValues={{ weight: "" }}
-        validate={(values) => {
-          const errors: Partial<FormValues> = {};
-          if (!values.weight) errors.weight = "Required";
-          return errors;
+      <FormComponent
+        inputs={[
+          {
+            name: "weight",
+            type: "number",
+            id: "weight",
+            initialValue: "",
+          },
+        ]}
+        labelMsg={`Weight: ${
+          weightEntries.length > 0
+            ? `${weightEntries[weightEntries.length - 1].weight}KG`
+            : "loading"
+        }`}
+        btnText={"Add Weight"}
+        onSubmit={async (
+          values: FormValues,
+          { resetForm }: FormikHelpers<FormValues>
+        ) => {
+          if (!user) return;
+
+          try {
+            const weightValue = parseFloat(values.weight);
+            const userDocRef = doc(db, "users", user.uid);
+            const weightRecordcollectionRef = collection(
+              userDocRef,
+              "weightRecord"
+            );
+
+            const currentDate = new Date().toLocaleDateString("fr-FR", {
+              day: "2-digit",
+              month: "2-digit",
+              year: "numeric",
+            });
+
+            const existingRecordQuery = query(
+              weightRecordcollectionRef,
+              where("date", "==", currentDate)
+            );
+            const existingRecordSnapshot = await getDocs(existingRecordQuery);
+
+            if (existingRecordSnapshot.size > 0) {
+              const existingRecordDoc = existingRecordSnapshot.docs[0];
+              await updateDoc(existingRecordDoc.ref, {
+                weight: weightValue,
+              });
+            } else {
+              await addDoc(weightRecordcollectionRef, {
+                weight: weightValue,
+                date: currentDate,
+              });
+            }
+
+            fetchData();
+
+            resetForm();
+          } catch (error) {
+            console.error(
+              "Error adding/updating weight entry to Firebase:",
+              error
+            );
+          }
         }}
-        onSubmit={onSubmit}
-      >
-        {({ isSubmitting }) => (
-          <Form>
-            <Field type="number" name="weight" />
-            <ErrorMessage name="weight" component="div" />
-            <Button type="submit" disabled={isSubmitting}>
-              Submit
-            </Button>
-          </Form>
-        )}
-      </Formik>
+      />
     </div>
   );
 }

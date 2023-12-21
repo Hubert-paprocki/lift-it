@@ -1,0 +1,19 @@
+@import "../../app/styles/config";
+@import "../../app/styles/animations";
+
+.weightTrackerBox {
+  background-color: $backgroundBlueLight;
+  padding: 3rem 5rem;
+  border-radius: $borderRadiusMedium;
+  width: 450px;
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  &Form {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    padding: 1rem 3rem;
+  }
+}
